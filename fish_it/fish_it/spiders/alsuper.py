@@ -20,33 +20,22 @@ class AlsuperSpider(scrapy.Spider):
         products = response.json()["data"]["data"]
         for p in products:
             il = ItemLoader(item=AlsuperItem(), selector=p)
+            il.add_value("id", p.get("id", None))
+            il.add_value("name", p.get("name", None))
+            il.add_value("price", p.get("price", None))
+            il.add_value("image_url", p.get("image_url", None))
+            il.add_value("unit", p.get("unit", None))
+            il.add_value("weight", p.get("weight", None))
+            il.add_value("packing", p.get("packing", None))
+            il.add_value("variant", p.get("variant", None))
+            il.add_value("madurity", p.get("madurity", None))
+            yield il.load_item()
+            # yield from products
 
-            il.add_jmes("id", "id")
-            il.add_jmes("name", "name")
-            il.add_jmes("price", "price")
-            il.add_jmes("image_url", "image_url")
-            il.add_jmes("image_url", "image_url")
-            il.add_jmes("weight", "weight")
-            il.add_jmes("packing", "packing")
-            il.add_jmes("variant", "variant")
-            il.add_jmes("madurity", "madurity")
-            yield {
-                "id": p.get("id", None),
-                "name": p.get("name", None),
-                "price": p.get("price", None),
-                "image_url": p.get("image_url", None),
-                "unit": p.get("image_url", None),
-                "weight": p.get("weight", None),
-                "packing": p.get("packing", None),
-                "variant": p.get("variant", None),
-                "madurity": p.get("madurity", None),
-            }
         page_number = re.search(r"(?<=page=)\d+", response.url).group()
         next_page_number = int(page_number) + 1
         relative_url = f"1000?page={next_page_number}&limit=15"
-        if bool(len(next_page.json()["data"])):
-            # next_page_url = response.urljoin(relative_url)
-            yield response.follow(relative_url, callback=self.parse)
+        yield response.follow(relative_url, callback=self.parse)
 
 
 # {

@@ -9,6 +9,7 @@ packages = [{include = "fish_it_scrapy"}]
 python = "^3.11"
 scrapy = "^2.9.0"
 ipython = "^8.14.0"
+parsel = "^1.8.1"
 
 
 [build-system]
