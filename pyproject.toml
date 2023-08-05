@@ -8,6 +8,7 @@ packages = [{include = "fish_it_scrapy"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 scrapy = "^2.9.0"
+ipython = "^8.14.0"
 
 
 [build-system]
