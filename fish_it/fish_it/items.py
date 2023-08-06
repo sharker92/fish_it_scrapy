@@ -17,3 +17,4 @@ class AlsuperItem(scrapy.Item):
     packing = scrapy.Field()
     variant = scrapy.Field()
     madurity = scrapy.Field()
+    share_url = scrapy.Field()
