@@ -1,0 +1,5 @@
+[
+{"ecommerce": true, "id": 1, "name": "Plátano Chiapas Alsuper Por Kg", "price": 21.9, "image_url": "https://cdn.alsuper.com/products/1.png", "unit": "pza", "weight": "0.23", "packing": "KG", "variant": "madurez", "madurity": "Verde", "share_url": "https://alsuper.com/producto/platano-chiapas-1", "ean": "0000000000001"}
+][
+{"ecommerce": true, "id": 1, "name": "Plátano Chiapas Alsuper Por Kg", "price": 21.9, "image_url": "https://cdn.alsuper.com/products/1.png", "unit": "pza", "weight": "0.23", "packing": "KG", "variant": "madurez", "madurity": ["Verde", "Maduro", "Muy Maduro"], "share_url": "https://alsuper.com/producto/platano-chiapas-1", "ean": "0000000000001"}
+]
