@@ -20,3 +20,4 @@ class AlsuperItem(scrapy.Item):
     share_url = scrapy.Field(output_processor=TakeFirst())
     ean = scrapy.Field(output_processor=TakeFirst())
     ecommerce = scrapy.Field(output_processor=TakeFirst())
+    regular_price = scrapy.Field(output_processor=TakeFirst())

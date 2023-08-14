@@ -33,8 +33,6 @@ class AlsuperSpider(scrapy.Spider):
                     product_url, meta={"il": il}, callback=self.parse_product_page
                 )
 
-            # yield from products
-
             page_number = re.search(r"(?<=page=)\d+", response.url).group()
             next_page_number = int(page_number) + 1
             relative_url = f"1000?page={next_page_number}&limit={PRODUCTS_PER_PAGE}"
@@ -48,6 +46,7 @@ class AlsuperSpider(scrapy.Spider):
         il.add_value("id", product.get("id", None))
         il.add_value("name", product.get("name", None))
         il.add_value("price", product.get("price", None))
+        il.add_value("regular_price", product.get("regular_price", None))
         il.add_value("image_url", product.get("image_url", None))
         il.add_value("unit", product.get("unit", None))
         il.add_value("weight", product.get("weight", None))
@@ -57,10 +56,3 @@ class AlsuperSpider(scrapy.Spider):
         il.add_value("share_url", product.get("share_url", None))
         il.add_value("ean", product.get("ean", None))
         yield il.load_item()
-
-
-# {
-# "data": {
-# "code": "ERR_HTTP_INVALID_STATUS_CODE"
-# }
-# }
