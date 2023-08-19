@@ -19,6 +19,8 @@ class AlsuperSpider(scrapy.Spider):
         f"https://api2.alsuper.com/v1/ms-products/branch/1000?page=1&limit={PRODUCTS_PER_PAGE}"
     ]
 
+    custom_settings = {"FEEDS": {"alsuperData.json": {"format": "json"}}}
+
     def parse(self, response):
         try:
             products = response.json()["data"]["data"]

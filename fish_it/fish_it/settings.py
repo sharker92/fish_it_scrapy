@@ -12,8 +12,6 @@ BOT_NAME = "fish_it"
 SPIDER_MODULES = ["fish_it.spiders"]
 NEWSPIDER_MODULE = "fish_it.spiders"
 
-FEEDS = {"alsuperData.json": {"format": "json"}}
-
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = "fish_it (+http://www.yourdomain.com)"
