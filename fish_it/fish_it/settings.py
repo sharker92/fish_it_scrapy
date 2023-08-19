@@ -62,9 +62,10 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    "fish_it.pipelines.FishItPipeline": 300,
-# }
+ITEM_PIPELINES = {
+   "fish_it.pipelines.FishItPipeline": 300,
+   "fish_it.pipelines.SaveToPostgreSQLPipeline": 400,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

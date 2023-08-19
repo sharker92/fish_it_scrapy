@@ -8,9 +8,10 @@ from itemloaders.processors import MapCompose, TakeFirst
 
 
 class AlsuperItem(scrapy.Item):
-    id = scrapy.Field(output_processor=TakeFirst())
+    prod_id = scrapy.Field(output_processor=TakeFirst())
     name = scrapy.Field(output_processor=TakeFirst())
     price = scrapy.Field(output_processor=TakeFirst())
+    regular_price = scrapy.Field(output_processor=TakeFirst())
     image_url = scrapy.Field(output_processor=TakeFirst())
     unit = scrapy.Field(output_processor=TakeFirst())
     weight = scrapy.Field(output_processor=TakeFirst())
@@ -20,4 +21,3 @@ class AlsuperItem(scrapy.Item):
     share_url = scrapy.Field(output_processor=TakeFirst())
     ean = scrapy.Field(output_processor=TakeFirst())
     ecommerce = scrapy.Field(output_processor=TakeFirst())
-    regular_price = scrapy.Field(output_processor=TakeFirst())

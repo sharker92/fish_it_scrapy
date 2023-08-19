@@ -19,7 +19,9 @@ class AlsuperSpider(scrapy.Spider):
         f"https://api2.alsuper.com/v1/ms-products/branch/1000?page=1&limit={PRODUCTS_PER_PAGE}"
     ]
 
-    custom_settings = {"FEEDS": {"alsuperData.json": {"format": "json"}}}
+    custom_settings = {
+        "FEEDS": {"alsuperData.json": {"format": "json", "overwrite": True}}
+    }
 
     def parse(self, response):
         try:
@@ -28,16 +30,18 @@ class AlsuperSpider(scrapy.Spider):
                 il = ItemLoader(item=AlsuperItem(), selector=p)
                 il.add_value("ecommerce", p.get("ecommerce", None))
                 product_id = p.get("id", None)
-                product_url = (
-                    f"https://api2.alsuper.com/v1/products/{product_id}/branch/1000"
-                )
+                product_url = f"https://api2.alsuper.com/v1/products/{product_id}/branch/1000"
                 yield response.follow(
-                    product_url, meta={"il": il}, callback=self.parse_product_page
+                    product_url,
+                    meta={"il": il},
+                    callback=self.parse_product_page,
                 )
 
             page_number = re.search(r"(?<=page=)\d+", response.url).group()
             next_page_number = int(page_number) + 1
-            relative_url = f"1000?page={next_page_number}&limit={PRODUCTS_PER_PAGE}"
+            relative_url = (
+                f"1000?page={next_page_number}&limit={PRODUCTS_PER_PAGE}"
+            )
             yield response.follow(relative_url, callback=self.parse)
         except KeyError:
             print("No se encontraron más articulos.")
@@ -45,7 +49,7 @@ class AlsuperSpider(scrapy.Spider):
     def parse_product_page(self, response):
         product = response.json()["data"]
         il = response.meta["il"]
-        il.add_value("id", product.get("id", None))
+        il.add_value("prod_id", product.get("id", None))
         il.add_value("name", product.get("name", None))
         il.add_value("price", product.get("price", None))
         il.add_value("regular_price", product.get("regular_price", None))
