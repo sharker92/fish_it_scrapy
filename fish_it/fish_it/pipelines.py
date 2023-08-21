@@ -9,6 +9,7 @@
 from uuid import uuid4
 from datetime import datetime
 from itemadapter import ItemAdapter
+from scrapy.exceptions import DropItem
 from sqlalchemy import URL, DateTime, create_engine, ForeignKey, Column
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.dialects.postgresql import (
@@ -29,9 +30,40 @@ class FishItPipeline:
 
 
 class DuplicatesPipeline:
-    def process_item(self, item, spider):
     # comparación de precio con producto anterior
-        return item
+    # https://thepythonscrapyplaybook.com/scrapy-beginners-guide-cleaning-data
+    def __init__(self):
+        url = URL.create(
+            drivername="postgresql",
+            username="fish_it",
+            host="localhost",
+            database="fish_it",
+            port=5432,
+            password="fish_it123",
+        )
+        self.engine = create_engine(url)
+        Session = sessionmaker(bind=self.engine)
+        self.session = Session()
+
+    def process_item(self, item, spider):
+        adapter = ItemAdapter(item)
+        latest_db_item = (
+            self.session.query(Alsuper)
+            .filter(Alsuper.prod_id == adapter.get("prod_id"))
+            .order_by(Alsuper.created_at.desc())
+            .first()
+        )
+        if latest_db_item is None:
+            return item
+        if latest_db_item.price == adapter.get(
+            "price"
+        ) and latest_db_item.regular_price == adapter.get("regular_price"):
+            raise DropItem("Duplicate item found:")
+        else:
+            return item
+
+    def close_spider(self, spider):
+        self.session.close()
 
 
 class SaveToPostgreSQLPipeline:
@@ -45,7 +77,7 @@ class SaveToPostgreSQLPipeline:
             password="fish_it123",
         )
         self.engine = create_engine(url)
-        self.recreate_database()
+        # self.recreate_database()
         # Base.metadata.create_all(self.engine)
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
@@ -98,8 +130,8 @@ class Alsuper(Base):
     share_url = Column(TEXT)
     ean = Column(TEXT)
     ecommerce = Column(BOOLEAN)
-    created_on = Column(DateTime(), default=datetime.now())
-    updated_on = Column(
+    created_at = Column(DateTime(), default=datetime.now())
+    updated_at = Column(
         DateTime(), default=datetime.now, onupdate=datetime.now()
     )
 

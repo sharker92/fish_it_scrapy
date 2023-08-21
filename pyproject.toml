@@ -10,6 +10,9 @@ python = "^3.11"
 scrapy = "^2.9.0"
 ipython = "^8.14.0"
 parsel = "^1.8.1"
+psycopg2 = "^2.9.7"
+sqlalchemy = "^2.0.20"
+alembic = "^1.11.3"
 
 
 [build-system]

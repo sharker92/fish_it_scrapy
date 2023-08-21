@@ -1,0 +1,18 @@
+version: '3.8'
+# docker compose up fish-it-db -d
+services:
+  fish-it-db:
+    image: postgres:14
+    container_name: fish_it_db
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: fish_it
+      POSTGRES_PASSWORD: fish_it123
+      POSTGRES_DB: fish_it
+
+# Enter to db
+#psql -h localhost -p 5432 -d fish_it -U fish_it -W
+# Other way
+#docker exec -it fish_it_db bin/bash
+# psql -U fish_it
